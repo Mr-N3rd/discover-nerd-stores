@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  app:
+    container_name: app-dev
+    image: app-dev
+    build:
+      context: .
+
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3000:3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nerd-coffee.rule=Host(`n3rdvana.com`)"
+      - "traefik.http.routers.nerd-coffee.entrypoints=websecure"
+      # rule = "Host(`example.com`) || (Host(`example.org`) && Path(`/traefik`))"
+      # - "traefik.http.services.nerd-coffee.loadbalancer.server.port=9000"
+      # - "traefik.http.routers.nerd-coffee.service=nerd-coffee"
+      - "traefik.http.routers.nerd-coffee.tls.certresolver=myresolver"
